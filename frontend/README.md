@@ -90,4 +90,6 @@
         ```
     
     - npm install vuex-persistedstate secure-ls
+
+    - npm install @vue/composition-api
   
