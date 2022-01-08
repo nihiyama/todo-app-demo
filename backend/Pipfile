@@ -12,12 +12,19 @@ fastapi-camelcase = "*"
 python-jose = {extras = ["cryptography"], version = "*"}
 passlib = {extras = ["bcrypt"], version = "*"}
 fastapi-jwt-auth = "*"
+alembic = "*"
+tenacity = "*"
+pytz = "*"
+python-dateutil = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 pytest = "*"
 pytest-cov = "*"
 pytest-mock = "*"
 pytest-asyncio = "*"
+flake8 = "*"
+autopep8 = "*"
 
 [requires]
 python_version = "3.8"
