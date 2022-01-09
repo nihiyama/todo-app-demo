@@ -28,9 +28,12 @@
     - python-dateutil
     - psycopg2-binary
 4. pipenv install --dev (the following is included in the pipfile dev-packages)
-      - flake8
-      - autopep8
-      - pytest
-      - pytest-cov
-      - pytest-mock
-      - pytest-asyncio
+    - flake8
+    - autopep8
+    - pytest
+    - pytest-cov
+    - pytest-mock
+    - pytest-asyncio
+
+5. setup alembic
+
