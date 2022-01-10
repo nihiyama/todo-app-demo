@@ -2,9 +2,9 @@ version: '3'
 
 services:
   app:
-    image: "todo-app-backend:0.1"
+    image: "todo-app:0.1"
     volumes:
-      -"./app:/opt/app"
+      - "./app:/opt/app"
     environment:
       - APP_ENV=development
       - URL_PREFIX=/
@@ -24,7 +24,7 @@ services:
     logging:
       driver: json-file
       options:
-        max-files: "7"
+        max-file: "7"
         max-size: "10m"
     command: sh start.sh
     depends_on:
@@ -43,7 +43,7 @@ services:
       - TZ=Asia/Tokyo
       - PGTZ=Asia/Tokyo
     logging:
-      driver: json-files
+      driver: json-file
       options:
-        max-files: "7"
+        max-file: "7"
         max-size: "10m"
