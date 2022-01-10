@@ -26,7 +26,7 @@ services:
       options:
         max-file: "7"
         max-size: "10m"
-    command: sh start.sh
+    #command: sh start.sh
     depends_on:
       - db
     ports:
