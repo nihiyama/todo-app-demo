@@ -21,7 +21,7 @@ class TodoCard(Base):
     assinees = relationship(
         "User",
         secondary=user_todo_card_map_table,
-        primaryjoin=(user_todo_card_map_table.c.todo_card.id == id),
+        primaryjoin=(user_todo_card_map_table.c.todo_card_id == id),
         back_populates="todo_cards"
     )
 

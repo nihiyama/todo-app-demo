@@ -19,14 +19,14 @@ class User(Base):
 
     todo_boards = relationship(
         "UserTodoBoardAssociation",
-        back_populates="assinees"
+        back_populates="users"
     )
 
     todo_cards = relationship(
         "TodoCard",
         secondary=user_todo_card_map_table,
         primaryjoin=(user_todo_card_map_table.c.user_id == id),
-        back_populates="users"
+        back_populates="assignees"
     )
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
