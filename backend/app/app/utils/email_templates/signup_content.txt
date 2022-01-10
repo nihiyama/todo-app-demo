@@ -1,0 +1,6 @@
+
+Hi, {{ user_name }}.
+Welcome to Todo App. Ready for you to use.
+Please Access {{ url }}.
+
+Thank you.

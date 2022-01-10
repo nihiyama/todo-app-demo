@@ -55,6 +55,13 @@ class Settings(BaseSettings):
     FIRST_SUPERUSER: str = os.getenv("FIRST_SUPERUSER", "admin")
     FIRST_SUPERUSER_PASSWORD: str = os.getenv("FIRST_SUPERUSER_PASSWORD", "changeme")
 
+    EMAIL_SENDER_NAME: str = os.getenv("EMAIL_SENDER_NAME", "example")
+    EMAIL_SENDER_ADDRESS: str = os.getenv("EMAIL_SENDER_ADDRESS", "example@example.com")
+    EMAIL_SERVER_HOST: str = os.getenv("EMAIL_SERVER_HOST", "changeme")
+    EMAIL_SERVER_PORT: int = int(os.getenv("EMAIL_SERVER_PORT", "587"))
+    EMAIL_HOST_USER: str = os.getenv("EMAIL_HOST_USER", "changeme")
+    EMAIL_HOST_PASSWORD: str = os.getenv("EMAIL_HOST_USER", "changeme")
+
     LOG_FILEPATH: str = os.getenv("LOG_FILEPATH", "/opt/logs/app.log")
     LOG_LEVEL: str = os.getenv("LOG_LEVEL", "info")
     LOG_HANDLER: str = os.getenv("LOG_HANDLER", "stream")
