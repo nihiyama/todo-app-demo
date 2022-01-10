@@ -1,8 +1,10 @@
+from typing import Counter
 from sqlalchemy import (
     Column, Integer, String,
     DateTime, func
 )
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql.sqltypes import Boolean
 
 from app.db.database import Base
 from app.models.user_todo_card_map import user_todo_card_map_table
@@ -16,6 +18,7 @@ class User(Base):
     email_address = Column(String(256), unique=True, index=True, nullable=False)
     user_name = Column(String(256), index=True, nullable=False)
     hashed_password = Column(String, unique=True, nullable=False)
+    is_superuser = Column(Boolean, default=False)
 
     todo_boards = relationship(
         "UserTodoBoardAssociation",

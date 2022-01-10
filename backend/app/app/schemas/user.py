@@ -1,17 +1,21 @@
 from typing import Optional
 
+from sqlalchemy.sql.sqltypes import Boolean
+
 from fastapi_camelcase import CamelModel
 
 
 class UserBase(CamelModel):
     email_address: Optional[str] = None
     user_name: Optional[str] = None
+    is_superuser: Optional[Boolean] = False
 
 
 class UserCreate(UserBase):
     email_address: str
     user_name: str
     password: str
+    is_superuser: Boolean = False
 
 
 class UserUpdate(UserBase):
