@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 
 from app import crud, schemas
+from app.services.user import copy_avatar
 from app.utils.config import settings
 
 
@@ -9,7 +10,7 @@ def init_db(db: Session) -> None:
         db,
         email_address=settings.FIRST_SUPERUSER
     )
-    if user is not None:
+    if user is None:
         user_in = schemas.UserCreate(
             email_address=settings.FIRST_SUPERUSER,
             user_name="admin",
@@ -17,3 +18,4 @@ def init_db(db: Session) -> None:
             is_superuser=True
         )
         user = crud.user.create(db, obj_in=user_in)
+        copy_avatar(user.uuid)

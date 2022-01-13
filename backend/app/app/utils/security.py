@@ -52,4 +52,4 @@ def get_hashed_password(password: str) -> str:
     return pwd_context.hash(password)
 
 def get_uuid(length: int = 32) -> str:
-    return secrets.token_urlsafe(length)
+    return secrets.token_urlsafe(length)[:length]

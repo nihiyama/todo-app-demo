@@ -2,7 +2,7 @@ from typing import Any, List, Optional
 
 from fastapi import (
     APIRouter, BackgroundTasks, Depends, HTTPException, status,
-    UploadFile, File
+    UploadFile, File, Body
 )
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
@@ -34,27 +34,45 @@ async def create_user(
     current_user: models.User = Depends(deps.get_current_superuser),
     *,
     background_tasks: BackgroundTasks,
-    user_in: schemas.UserCreate,
+    email_address: str = Body(..., alias="emailAddress"),
+    user_name: str = Body(..., alias="userName"),
+    password: str = Body(...),
+    is_superuser: Optional[bool] = Body(False),
     avatar: Optional[UploadFile] = File(None)
 ) -> Any:
-    if is_valid_email_address(user_in.email_address) is False:
+    if is_valid_email_address(email_address) is False:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Email address is invalid"
         )
-    user = crud.user.get_by_email_address(db, email_address=user_in.email_address)
+    user = crud.user.get_by_email_address(db, email_address=email_address)
     if user is not None:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
             detail="The user has already existed"
         )
+    if avatar is not None:
+        if "image" not in avatar.content_type:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="avatar mime type is must be image"
+            )
+    user_in = schemas.UserCreate(
+        email_address=email_address,
+        user_name=user_name,
+        password=password,
+        is_superuser=is_superuser
+    )
     background_tasks.add_task(
         create_user_and_send_mail,
         db=db,
         user_in=user_in,
         avatar=avatar
     )
-    return user
+    return {
+        "detail": "Accepted"
+    }
+
 
 
 @router.get("/{uuid}", response_model=schemas.User)

@@ -14,7 +14,6 @@ api_prefix = url_prefix / settings.API_V1_STR
 openapi_url = api_prefix / "openapi.json"
 docs_url = url_prefix / settings.DOCS_URL
 media_url = url_prefix / settings.MEDIA_URLPATH
-print(docs_url)
 app = FastAPI(
     title=settings.PROJECT_NAME,
     openapi_url=str(openapi_url),

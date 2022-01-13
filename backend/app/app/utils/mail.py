@@ -9,7 +9,7 @@ import re
 from app.utils.config import settings
 
 email_regex = re.compile(r"[^@]+@[^@]+\.[^@]+")
-email_template_dir = Path(__file__).resolve() / "email_templates"
+email_template_dir = Path(__file__).resolve().parent / "email_templates"
 
 
 def is_valid_email_address(email_address: str) -> bool:
@@ -33,7 +33,7 @@ def create_signup_mail_content(user_name: str, url: str) -> str:
 
 def create_signup_mail_subject() -> str:
     message_subject = ""
-    template = email_template_dir / "signup_body.txt"
+    template = email_template_dir / "signup_subject.txt"
     with open(template, "r") as f:
         subject = f.read()
         message_subject += subject

@@ -1,5 +1,7 @@
 from typing import Optional
 
+from fastapi import UploadFile, File
+
 from fastapi_camelcase import CamelModel
 
 
@@ -13,7 +15,7 @@ class UserCreate(UserBase):
     email_address: str
     user_name: str
     password: str
-    is_superuser: bool = False
+    is_superuser: Optional[bool] = False
 
 
 class UserUpdate(UserBase):
