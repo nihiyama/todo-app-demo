@@ -3,7 +3,7 @@ from typing import Optional, List
 from fastapi_camelcase import CamelModel
 
 from app.schemas.user_todo_board_association import UserTodoBoardAssociation
-from app.schemas.todo_list import TodoList
+from app.schemas.todo_list import TodoListBrevity
 
 
 class TodoBoardBase(CamelModel):
@@ -16,9 +16,9 @@ class TodoBoardCreate(TodoBoardBase):
 
 
 class TodoBoardUpdate(TodoBoardBase):
-    useable_user_email_address: List[str]
-    useable_user_is_owner: List[str]
-    list_order: Optional[str]
+    useable_user_email_addresses: Optional[List[str]] = None
+    useable_user_is_owners: Optional[List[str]] = None
+    list_order: Optional[str] = None
 
 
 class TodoBoardInDBBase(TodoBoardBase):
@@ -31,7 +31,11 @@ class TodoBoardInDBBase(TodoBoardBase):
 
 class TodoBoard(TodoBoardInDBBase):
     useable_user: List[UserTodoBoardAssociation]
-    todo_lists: List[TodoList]
+    todo_lists: List[TodoListBrevity]
+
+
+class TodoBoardBrevity(TodoBoardInDBBase):
+    pass
 
 
 class TodoBoardInDB(TodoBoardInDBBase):
