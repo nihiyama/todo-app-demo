@@ -21,7 +21,8 @@ class User(Base):
 
     todo_boards = relationship(
         "UserTodoBoardAssociation",
-        back_populates="users"
+        back_populates="user",
+        cascade="all, delete-orphan"
     )
 
     todo_cards = relationship(

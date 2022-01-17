@@ -30,7 +30,7 @@ class TodoBoardInDBBase(TodoBoardBase):
 
 
 class TodoBoard(TodoBoardInDBBase):
-    useable_user: List[UserTodoBoardAssociation]
+    users: List[UserTodoBoardAssociation]
     todo_lists: List[TodoListBrevity]
 
 

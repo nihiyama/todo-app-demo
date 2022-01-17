@@ -64,7 +64,8 @@ def read_todo_list_by_id(
     todo_list = crud.todo_list.get_by_id_and_current_user(
         db,
         current_user=current_user,
-        todo_list_id=id
+        todo_list_id=id,
+        is_order=True
     ) 
     if todo_list is None:
         raise HTTPException(
