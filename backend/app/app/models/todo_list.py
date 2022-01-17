@@ -11,7 +11,7 @@ class TodoList(Base):
     __tablename__ = "todo_lists"
 
     id = Column(Integer, primary_key=True, index=True)
-    todo_board_id = Column(Integer, ForeignKey("todo_boards.id"), index=True)
+    todo_board_id = Column(Integer, ForeignKey("todo_boards.id", ondelete="CASCADE"), index=True)
     title = Column(String(256))
     detail = Column(Text, nullable=True)
     card_order = Column(String)
@@ -23,7 +23,8 @@ class TodoList(Base):
 
     todo_cards = relationship(
         "TodoCard",
-        back_populates="todo_list"
+        back_populates="todo_list",
+        cascade="all, delete"
     )
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())

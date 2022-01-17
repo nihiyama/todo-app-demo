@@ -12,13 +12,13 @@ class TodoCard(Base):
     __tablename__ = "todo_cards"
 
     id = Column(Integer, primary_key=True, index=True)
-    todo_list_id = Column(Integer, ForeignKey("todo_lists.id"), index=True)
+    todo_list_id = Column(Integer, ForeignKey("todo_lists.id", ondelete="CASCADE"), index=True)
     title = Column(String(256))
     detail = Column(Text, nullable=True)
     start_date = Column(Date, nullable=True)
     end_date = Column(Date, nullable=True)
 
-    assinees = relationship(
+    assignees = relationship(
         "User",
         secondary=user_todo_card_map_table,
         primaryjoin=(user_todo_card_map_table.c.todo_card_id == id),

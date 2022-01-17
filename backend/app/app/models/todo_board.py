@@ -23,7 +23,8 @@ class TodoBoard(Base):
 
     todo_lists = relationship(
         "TodoList",
-        back_populates="todo_board"
+        back_populates="todo_board",
+        cascade="all, delete"
     )
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
