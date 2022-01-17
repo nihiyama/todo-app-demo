@@ -1,7 +1,7 @@
 FROM python:3.8-buster as builder
 
-COPY Pipfile.lock /opt/app
-WORKDIR /opt/app
+COPY Pipfile.lock /opt/app/
+WORKDIR /opt/app/
 
 RUN pip3 install pipenv==2021.5.29 && \
     pipenv sync --system
@@ -23,7 +23,7 @@ RUN useradd -r -s /bin/false gunicorn
 COPY app /opt/app
 
 USER gunicorn
-WORKDIR /opt/app
+WORKDIR /opt/app/
 
 EXPOSE 8000
 CMD ["sleep", "infinity"]

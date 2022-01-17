@@ -41,6 +41,7 @@ class Settings(BaseSettings):
     
     PROJECT_NAME: str = os.getenv("PROJECT_NAME", "fastapi")
     DOCS_URL: str = os.getenv("DOCS_URL", "admin-site")
+    SERVICE_URL: str = os.getenv("SERVICE_URL", "http://example.com")
 
     POSTGRES_SERVER: str = os.getenv("POSTGRES_SERVER", "localhost")
     POSTGRES_USER: str = os.getenv("POSTGRES_USER", "postgres")
@@ -55,6 +56,16 @@ class Settings(BaseSettings):
     FIRST_SUPERUSER: str = os.getenv("FIRST_SUPERUSER", "admin")
     FIRST_SUPERUSER_PASSWORD: str = os.getenv("FIRST_SUPERUSER_PASSWORD", "changeme")
 
+    EMAIL_SENDER_NAME: str = os.getenv("EMAIL_SENDER_NAME", "example")
+    EMAIL_SENDER_ADDRESS: str = os.getenv("EMAIL_SENDER_ADDRESS", "example@example.com")
+    EMAIL_SERVER_HOST: str = os.getenv("EMAIL_SERVER_HOST", "changeme")
+    EMAIL_SERVER_PORT: int = int(os.getenv("EMAIL_SERVER_PORT", "587"))
+    EMAIL_HOST_USER: str = os.getenv("EMAIL_HOST_USER", "changeme")
+    EMAIL_HOST_PASSWORD: str = os.getenv("EMAIL_HOST_USER", "changeme")
+
+    MEDIA_FILEPATH: str = os.getenv("MEDIA_PATH", "/opt/app/media")
+    MEDIA_URLPATH: str = os.getenv("MEDIA_URL", "/media")
+
     LOG_FILEPATH: str = os.getenv("LOG_FILEPATH", "/opt/logs/app.log")
     LOG_LEVEL: str = os.getenv("LOG_LEVEL", "info")
     LOG_HANDLER: str = os.getenv("LOG_HANDLER", "stream")
@@ -64,8 +75,3 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
-    
-    
-    
-    
-

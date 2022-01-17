@@ -50,3 +50,7 @@ dmypy.json
 
 # Docker
 volumes
+
+# media
+app/media/*
+!app/media/avatar/user.png

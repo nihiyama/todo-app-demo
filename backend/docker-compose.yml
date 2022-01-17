@@ -2,29 +2,29 @@ version: '3'
 
 services:
   app:
-    image: "todo-app-backend:0.1"
+    image: "todo-app:0.1"
     volumes:
-      -"./app:/opt/app"
+      - "./app:/opt/app"
     environment:
       - APP_ENV=development
       - URL_PREFIX=/
       - API_V1_STR=/api/v1
       - SECRET_KEY=changeme
       - ACCESS_TOKEN_EXPIRE_MINUTES=30
-      - BACKEND_CORS_ORIGINS=["*"]
+      - BACKEND_CORS_ORIGINS="*"
       - PROJECT_NAME=TODO
       - POSTGRES_SERVER=db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=changeme
       - POSTGRES_DB=postgres
       - DB_SECRET_KEY=changeme
-      - FIRST_SUPERUSER=admin
+      - FIRST_SUPERUSER=admin@example.com
       - FIRST_SUPERUSER_PASSWORD=changeme
       - TZ=Asia/Tokyo
     logging:
       driver: json-file
       options:
-        max-files: "7"
+        max-file: "7"
         max-size: "10m"
     command: sh start.sh
     depends_on:
@@ -43,7 +43,7 @@ services:
       - TZ=Asia/Tokyo
       - PGTZ=Asia/Tokyo
     logging:
-      driver: json-files
+      driver: json-file
       options:
-        max-files: "7"
+        max-file: "7"
         max-size: "10m"
