@@ -4,6 +4,7 @@ from fastapi import (
     APIRouter, Depends, HTTPException, status,
     Query
 )
+from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
 from app import crud, models, schemas
@@ -52,7 +53,8 @@ def read_todo_board_by_uuid(
     todo_board = crud.todo_board.get_by_uuid_and_current_user(
         db,
         current_user=current_user,
-        todo_board_uuid=uuid
+        todo_board_uuid=uuid,
+        is_order=True
     )
     if todo_board is None:
         raise HTTPException(

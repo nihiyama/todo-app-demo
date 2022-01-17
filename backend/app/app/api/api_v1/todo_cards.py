@@ -21,14 +21,14 @@ def read_todo_lists(
     todo_list_ids: Optional[List[int]] = Query(None, alias="todoListIds"),
     todo_card_ids: Optional[List[int]] = Query(None, alias="todoCardIds"),
 ) -> Any:
-    todo_lists = crud.todo_card.get_by_ids_and_current_user(
+    todo_cards = crud.todo_card.get_by_ids_and_current_user(
         db,
         current_user=current_user,
         todo_board_uuids=todo_board_uuids,
         todo_list_ids=todo_list_ids,
         todo_card_ids=todo_card_ids
     )
-    return todo_lists
+    return todo_cards
 
 
 @router.post("/", response_model=schemas.TodoCard, status_code=status.HTTP_201_CREATED)

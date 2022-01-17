@@ -111,9 +111,24 @@ def move_todo_card(
                 todo_list_id=move_in.todo_list_id_with_after
             )
         )
+        todo_list_with_before = crud.todo_list.get_by_id_and_current_user(
+            db,
+            current_user=current_user,
+            todo_list_id=move_in.todo_list_id_with_before
+        )
         todo_list_with_before = crud.todo_list.update_card_order(
             db,
             db_obj=todo_list_with_before,
             card_order=move_in.card_order_with_before
+        )
+        todo_list_with_after = crud.todo_list.get_by_id_and_current_user(
+            db,
+            current_user=current_user,
+            todo_list_id=move_in.todo_list_id_with_after
+        )
+        todo_list_with_after = crud.todo_list.update_card_order(
+            db,
+            db_obj=todo_list_with_after,
+            card_order=move_in.card_order_with_after,
         )
         return [todo_list_with_before, todo_list_with_after]    

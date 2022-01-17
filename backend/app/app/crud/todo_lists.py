@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session, selectinload
 from app.crud.todo_boards import todo_board
 from app.crud.base import CRUDBase
 from app.models.todo_list import TodoList
+from app.models.todo_card import TodoCard
 from app.models.user_todo_board_association import UserTodoBoardAssociation
 from app.schemas.todo_list import TodoListCreate, TodoListUpdate
 from app.models.user import User
@@ -62,53 +63,41 @@ class CRUDList(CRUDBase[TodoList, TodoListCreate, TodoListUpdate]):
                         all()
         except Exception as e:
             raise e
-    
-    def get_by_board_uuid_and_current_user(
-        self,
-        db: Session,
-        *,
-        current_user: User,
-        todo_board_uuid: str,
-    ) -> Optional[List[TodoList]]:
-        try:
-            todo_board_: TodoBoard = todo_board.\
-                                get_by_uuid_and_current_user(
-                                    db,
-                                    current_user=current_user,
-                                    todo_board_uuid=todo_board_uuid
-                                )
-            if todo_board_ is None:
-                return None
-            else:
-                # create order by dict to sort
-                list_order = {
-                    int(e): i 
-                    for i, e in enumerate(todo_board_.list_order.split(",")) 
-                    if num_regex_p.match(e)
-                }
-                todo_lists: List[TodoList] = todo_board_.todo_lists
-                # if the list not exist in list_order but list exist in todo_lists, put the list first.
-                return sorted(todo_lists, key=lambda x: v if (v := list_order.get(x)) is not None else -1)
-        except Exception as e:
-            raise e
 
     def get_by_id_and_current_user(
         self,
         db: Session,
         *,
         current_user: User,
-        todo_list_id: int
+        todo_list_id: int,
+        is_order: bool = False
     ) -> Optional[TodoList]:
         try:
-            return db.query(TodoList).\
+            todo_list_: Optional[TodoList] =  db.query(TodoList).\
                         filter(TodoList.id == todo_list_id).\
                         join(TodoList.todo_board).\
                         join(TodoBoard.users).\
                         filter(
                             UserTodoBoardAssociation.user_id == current_user.id
                         ).\
-                        options(selectinload(TodoList.todo_cards)).\
+                        options(selectinload(TodoList.todo_cards).selectinload(TodoCard.assignees)).\
                         first()
+            if todo_list_ is None:
+                return todo_list_
+            if is_order:
+                # create order by dict to sort
+                card_order = {
+                    int(e): i
+                    for i, e in enumerate(todo_list_.card_order.split(","))
+                    if num_regex_p.match(e)
+                }
+                todo_cards: List[TodoCard] = todo_list_.todo_cards
+                # if the card not exist in card_order but list exist in todo_cards, put the card first.
+                todo_list_.todo_cards = sorted(todo_cards, key=lambda x: v if (v := card_order.get(x.id)) is not None else -1)
+                return todo_list_
+            else:
+                return todo_list_
+            
         except Exception as e:
             raise e
     
@@ -124,11 +113,13 @@ class CRUDList(CRUDBase[TodoList, TodoListCreate, TodoListUpdate]):
             obj_in_data.pop("todo_board_uuid")
             db_obj = TodoList(
                 todo_board_id = todo_board_db_obj.id,
+                card_order="",
                 **obj_in_data
             )
             db.add(db_obj)
             db.commit()
-            if todo_board_db_obj.list_order is None:
+            list_order = todo_board_db_obj.list_order
+            if list_order is None or list_order == "":
                 todo_board.update_list_order(
                     db,
                     db_obj=todo_board_db_obj,
@@ -138,7 +129,7 @@ class CRUDList(CRUDBase[TodoList, TodoListCreate, TodoListUpdate]):
                 todo_board.update_list_order(
                     db,
                     db_obj=todo_board_db_obj,
-                    list_order=f"{todo_board_db_obj.list_order},{db_obj.id}"
+                    list_order=f"{list_order},{db_obj.id}"
                 )
             db.refresh(db_obj)
             return db_obj
@@ -150,6 +141,7 @@ class CRUDList(CRUDBase[TodoList, TodoListCreate, TodoListUpdate]):
         update_data = {
             "card_order": card_order
         }
+        print(jsonable_encoder(db_obj))
         return super().update(db, db_obj=db_obj, obj_in=update_data)
 
 todo_list = CRUDList(TodoList)

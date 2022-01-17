@@ -49,7 +49,7 @@ def refresh(
 ) -> Any:
     Authorize.jwt_refresh_token_required()
     current_user = Authorize.get_jwt_subject()
-    raw_jwt = Authorize.get_jwt_subject()
+    raw_jwt = Authorize.get_raw_jwt()
     user_claims = {"user_type": raw_jwt["user_type"]}
     new_access_token = Authorize.create_access_token(subject=current_user, user_claims=user_claims)
     new_refresh_token = Authorize.create_refresh_token(subject=current_user, user_claims=user_claims)

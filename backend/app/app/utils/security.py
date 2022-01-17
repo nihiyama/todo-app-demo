@@ -17,7 +17,7 @@ class CookieJwtSettings(BaseModel):
     authjwt_algorithm: str = ALGOLITHM
     authjwt_token_location: set = {"cookies"}
     authjwt_access_token_expires: timedelta = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
-    authjwt_access_token_expires: timedelta = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES*24)
+    authjwt_refresh_token_expires: timedelta = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES*24)
     authjwt_cookie_samesite: str = "strict"
     authjwt_cookie_csrf_protect: bool = False
     authjwt_access_cookie_path: str = settings.URL_PREFIX

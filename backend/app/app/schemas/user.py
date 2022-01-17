@@ -55,4 +55,4 @@ class UserAssociation(CamelModel):
     user_name: Optional[str] = None
 
     class Config:
-        orm_mord = True
+        orm_mode = True
