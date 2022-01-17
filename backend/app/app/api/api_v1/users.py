@@ -26,8 +26,7 @@ def read_users(
 
 @router.post(
     "/",
-    status_code=status.HTTP_202_ACCEPTED,
-    response_model=schemas.User
+    status_code=status.HTTP_202_ACCEPTED
 )
 async def create_user(
     db: Session = Depends(deps.get_db),
@@ -37,7 +36,7 @@ async def create_user(
     email_address: str = Body(..., alias="emailAddress"),
     user_name: str = Body(..., alias="userName"),
     password: str = Body(...),
-    is_superuser: Optional[bool] = Body(False),
+    is_superuser: Optional[bool] = Body(False, alias="isSuperuser"),
     avatar: Optional[UploadFile] = File(None)
 ) -> Any:
     if is_valid_email_address(email_address) is False:

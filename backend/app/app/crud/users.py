@@ -1,4 +1,5 @@
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, List, Optional, Union
+
 from sqlalchemy.orm import Session
 
 from app.crud.base import CRUDBase
@@ -12,6 +13,15 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
     def get_by_email_address(self, db: Session, *, email_address: str) -> Optional[User]:
         try:
             return db.query(User).filter(User.email_address == email_address).first()
+        except Exception as e:
+            raise e
+    
+    def get_by_email_addresses(self, db: Session, *, email_addresses: List[str]) -> List[User]:
+        try:
+            return db.query(User).\
+                filter(User.email_address.in_(email_addresses)).\
+                order_by(User.id).\
+                all()
         except Exception as e:
             raise e
     

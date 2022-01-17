@@ -65,5 +65,5 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             db.commit()
             return db_obj
         except Exception as e:
-            db.rollback
+            db.rollback()
             raise e

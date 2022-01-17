@@ -1,4 +1,3 @@
-from typing import Counter
 from sqlalchemy import (
     Column, Integer, String,
     DateTime, func
