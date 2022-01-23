@@ -11,7 +11,7 @@ services:
       - API_V1_STR=/api/v1
       - SECRET_KEY=changeme
       - ACCESS_TOKEN_EXPIRE_MINUTES=30
-      - BACKEND_CORS_ORIGINS="*"
+      - BACKEND_CORS_ORIGINS=["*"]
       - PROJECT_NAME=TODO
       - POSTGRES_SERVER=db
       - POSTGRES_USER=postgres
